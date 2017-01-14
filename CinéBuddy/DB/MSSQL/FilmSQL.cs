@@ -35,79 +35,108 @@ namespace CinéBuddy.DB.MSSQL
 
         public List<Review> GetReviews(int id)
         {
-            string query = "SELECT a.Gebruikersnaam, f.Titel, r.Cijfer, r.Omschrijving FROM Review r Inner join account a ON a.ID = r.AccountID Inner join film f ON f.ID = r.FilmID WHERE f.ID = @id;";
-            var command = new SqlCommand(query);
-            command.Parameters.AddWithValue("@id", id);
-            SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
-            List<Review> listOfReviewsToReturn = new List<Review>();
-            while (!reader.IsClosed && reader.Read())
+            try
             {
-                listOfReviewsToReturn.Add(new Review(reader.GetFieldValue<string>(0),
-                    reader.GetFieldValue<string>(1),
-                    reader.GetFieldValue<int>(2),
-                    reader.GetFieldValue<string>(3)));
+                string query = "SELECT a.Gebruikersnaam, f.Titel, r.Cijfer, r.Omschrijving FROM Review r Inner join account a ON a.ID = r.AccountID Inner join film f ON f.ID = r.FilmID WHERE f.ID = @id;";
+                var command = new SqlCommand(query);
+                command.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
+                List<Review> listOfReviewsToReturn = new List<Review>();
+                while (!reader.IsClosed && reader.Read())
+                {
+                    listOfReviewsToReturn.Add(new Review(reader.GetFieldValue<string>(0),
+                        reader.GetFieldValue<string>(1),
+                        reader.GetFieldValue<int>(2),
+                        reader.GetFieldValue<string>(3)));
+                }
+                return listOfReviewsToReturn;
             }
-            return listOfReviewsToReturn;
+            catch (Exceptions.KonFilmNietVinden ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public Film HaalFilmOp(int id)
         {
-            string query = "SELECT * FROM FILM WHERE ID = @id;";
-            var command = new SqlCommand(query);
-            command.Parameters.AddWithValue("@id", id);
-            SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
-            while (reader.Read())
+            try
             {
-                Film a = new Film(reader.GetFieldValue<int>(0),
-                    reader.GetFieldValue<string>(1),
-                    reader.GetFieldValue<string>(2),
-                    reader.GetFieldValue<string>(3),
-                    reader.GetFieldValue<int>(4),
-                    reader.GetFieldValue<int>(5),
-                    reader.GetFieldValue<DateTime>(6),
-                    reader.GetFieldValue<int>(7),
-                    reader.GetFieldValue<int>(8),
-                    reader.GetFieldValue<string>(9));
-                return a;
+                string query = "SELECT * FROM FILM WHERE ID = @id;";
+                var command = new SqlCommand(query);
+                command.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
+                while (reader.Read())
+                {
+                    Film a = new Film(reader.GetFieldValue<int>(0),
+                        reader.GetFieldValue<string>(1),
+                        reader.GetFieldValue<string>(2),
+                        reader.GetFieldValue<string>(3),
+                        reader.GetFieldValue<int>(4),
+                        reader.GetFieldValue<int>(5),
+                        reader.GetFieldValue<DateTime>(6),
+                        reader.GetFieldValue<int>(7),
+                        reader.GetFieldValue<int>(8),
+                        reader.GetFieldValue<string>(9));
+                    return a;
+                }
             }
-            throw new NotImplementedException();
+            catch (Exceptions.KonFilmNietVinden ex)
+            {
+                throw ex;
+            }
+            return null;
         }
 
         public List<DateTime> HaalFilmTijdenOp(int id)
         {
-            string query = "SELECT * FROM FilmTijd WHERE FilmID = @id ORDER BY StartTijd ASC;";
-            var command = new SqlCommand(query);
-            command.Parameters.AddWithValue("@id", id);
-            SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
-            List<DateTime> listOfTimesToReturn = new List<DateTime>();
-            while (reader.Read())
+            try
             {
-                listOfTimesToReturn.Add(reader.GetDateTime(3));
+                string query = "SELECT * FROM FilmTijd WHERE FilmID = @id ORDER BY StartTijd ASC;";
+                var command = new SqlCommand(query);
+                command.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
+                List<DateTime> listOfTimesToReturn = new List<DateTime>();
+                while (reader.Read())
+                {
+                    listOfTimesToReturn.Add(reader.GetDateTime(3));
+                }
+                return listOfTimesToReturn;
             }
-            return listOfTimesToReturn;
+            catch (Exceptions.KonFilmNietVinden ex)
+            {
+                throw ex;
+            }
         }
 
         public Film HaalSneakPreviewOp()
         {
-            string query = $"SELECT * FROM FILM f JOIN SneakPreview s ON f.ID = s.FilmID WHERE s.Datum = (SELECT TOP 1 datum FROM SneakPreview WHERE datum >= @datum);";
-            var command = new SqlCommand(query);
-            command.Parameters.AddWithValue("@datum", DateTime.Now.ToString("yyyy-MM-dd"));
-            SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
-            while (reader.Read())
+            try
             {
-                Film a = new Film(reader.GetFieldValue<int>(0),
-                    reader.GetFieldValue<string>(1),
-                    reader.GetFieldValue<string>(2),
-                    reader.GetFieldValue<string>(3),
-                    reader.GetFieldValue<int>(4),
-                    reader.GetFieldValue<int>(5),
-                    reader.GetFieldValue<DateTime>(6),
-                    reader.GetFieldValue<int>(7),
-                    reader.GetFieldValue<int>(8),
-                    reader.GetFieldValue<string>(9));
-                return a;
+                string query = $"SELECT * FROM FILM f JOIN SneakPreview s ON f.ID = s.FilmID WHERE s.Datum = (SELECT TOP 1 datum FROM SneakPreview WHERE datum >= @datum);";
+                var command = new SqlCommand(query);
+                command.Parameters.AddWithValue("@datum", DateTime.Now.ToString("yyyy-MM-dd"));
+                SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
+                while (reader.Read())
+                {
+                    Film a = new Film(reader.GetFieldValue<int>(0),
+                        reader.GetFieldValue<string>(1),
+                        reader.GetFieldValue<string>(2),
+                        reader.GetFieldValue<string>(3),
+                        reader.GetFieldValue<int>(4),
+                        reader.GetFieldValue<int>(5),
+                        reader.GetFieldValue<DateTime>(6),
+                        reader.GetFieldValue<int>(7),
+                        reader.GetFieldValue<int>(8),
+                        reader.GetFieldValue<string>(9));
+                    return a;
+                }
             }
-            throw new NotImplementedException();
+            catch (Exceptions.KonFilmNietVinden ex)
+            {
+                throw ex;
+            }
+            return null;
         }
     }
 }
