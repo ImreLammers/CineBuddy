@@ -10,7 +10,12 @@ namespace CinéBuddy.DB.Local
 {
     public class FilmContext : IFilm
     {
-        private List<Film> AllFilms = new List<Film> { new Film(1, "Memento", "filepath", "Omschrijving van de film", 2, 1, DateTime.Now, 16, 120, "trailerlink") };
+        private List<Film> AllFilms = new List<Film>
+        {
+            new Film(0, "Memento", "filepath", "Omschrijving van de film", 2, 1, DateTime.Now, 16, 120, "trailerlink"),
+            new Film(1, "Finding Nemo", "filepath", "Omschrijving van de film", 2, 1, DateTime.Now, 16, 120, "trailerlink"),
+            new Film(2, "Toy Story", "filepath", "Omschrijving van de film", 2, 1, DateTime.Now, 16, 120, "trailerlink")
+        };
 
         public List<Film> GetAllFilms()
         {
@@ -24,7 +29,7 @@ namespace CinéBuddy.DB.Local
 
         public Film HaalFilmOp(int id)
         {
-            return AllFilms[id - 1];
+            return AllFilms[id];
         }
 
         public List<DateTime> HaalFilmTijdenOp(int id)
