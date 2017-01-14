@@ -137,7 +137,9 @@
     <Compile Include="DB\Repository\FilmRepository.cs" />
     <Compile Include="DB\Repository\ReserveRepository.cs" />
     <Compile Include="DB\Repository\UserRepository.cs" />
+    <Compile Include="Exceptions\KonFilmNietVinden.cs" />
     <Compile Include="Exceptions\KonGebruikerNietVinden.cs" />
+    <Compile Include="Exceptions\KonNietMetDeDatabaseVerbinden.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
