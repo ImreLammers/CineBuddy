@@ -27,15 +27,22 @@ namespace CinéBuddy.DB
 
         private SqlConnection GetConnection()
         {
-            if (connection == null || connection.State != System.Data.ConnectionState.Open)
+            try
             {
-                connection = new SqlConnection(connectionString);
-                connection.Open();
-            }
+                if (connection == null || connection.State != System.Data.ConnectionState.Open)
+                {
+                    connection = new SqlConnection(connectionString);
+                    connection.Open();
+                }
 
-            if (lastReader != null && !lastReader.IsClosed)
+                if (lastReader != null && !lastReader.IsClosed)
+                {
+                    lastReader.Close();
+                }
+            }
+            catch (Exceptions.KonNietMetDeDatabaseVerbinden ex)
             {
-                lastReader.Close();
+                throw ex;
             }
             return connection;
         }

@@ -30,35 +30,49 @@ namespace CinéBuddy.DB.MSSQL
 
         public Gebruiker GetUserByUserName(string username)
         {
-            string query = "SELECT * FROM Account WHERE Gebruikersnaam = @username";
-            var command = new SqlCommand(query);
-            command.Parameters.AddWithValue("@username", username);
-            SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
-            while (reader.Read())
+            try
             {
-                Gebruiker gebruiker = new Gebruiker(reader.GetString(1),
-                    reader.GetString(3),
-                    reader.GetString(4),
-                    reader.GetDateTime(5),
-                    reader.GetString(6),
-                    reader.GetInt32(7));
-                return gebruiker;
+                string query = "SELECT * FROM Account WHERE Gebruikersnaam = @username";
+                var command = new SqlCommand(query);
+                command.Parameters.AddWithValue("@username", username);
+                SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
+                while (reader.Read())
+                {
+                    Gebruiker gebruiker = new Gebruiker(reader.GetString(1),
+                        reader.GetString(3),
+                        reader.GetString(4),
+                        reader.GetDateTime(5),
+                        reader.GetString(6),
+                        reader.GetInt32(7));
+                    return gebruiker;
+                }
+            }
+            catch (Exceptions.KonGebruikerNietVinden ex)
+            {
+                throw ex;
             }
             return null;
         }
 
         public bool CheckCredentials(string username, string password)
         {
-            string query = "SELECT Gebruikersnaam, Wachtwoord FROM ACCOUNT WHERE Gebruikersnaam = @username";
-            var command = new SqlCommand(query);
-            command.Parameters.AddWithValue("@username", username);
-            SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
-            while (reader.Read())
+            try
             {
-                if (reader.GetString(0) == username && reader.GetString(1) == password)
+                string query = "SELECT Gebruikersnaam, Wachtwoord FROM ACCOUNT WHERE Gebruikersnaam = @username";
+                var command = new SqlCommand(query);
+                command.Parameters.AddWithValue("@username", username);
+                SqlDataReader reader = DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
+                while (reader.Read())
                 {
-                    return true;
+                    if (reader.GetString(0) == username && reader.GetString(1) == password)
+                    {
+                        return true;
+                    }
                 }
+            }
+            catch (Exceptions.KonGebruikerNietVinden ex)
+            {
+                throw ex;
             }
             return false;
         }
@@ -78,9 +92,9 @@ namespace CinéBuddy.DB.MSSQL
                 DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
                 return true;
             }
-            catch (Exception)
+            catch (Exceptions.KonGebruikerNietVinden ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -99,9 +113,9 @@ namespace CinéBuddy.DB.MSSQL
                 DatabaseConnection.dbConnectionInstance.ExecuteQueryReader(command);
                 return true;
             }
-            catch (Exception)
+            catch (Exceptions.KonGebruikerNietVinden ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -118,9 +132,9 @@ namespace CinéBuddy.DB.MSSQL
                 user.woonplaats = woonplaats;
                 return true;
             }
-            catch (Exception)
+            catch (Exceptions.KonGebruikerNietVinden ex)
             {
-                throw;
+                throw ex;
             }
         }
     }
