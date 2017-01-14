@@ -128,6 +128,9 @@
     <Compile Include="DB\Context\IReserve.cs" />
     <Compile Include="DB\Context\IUser.cs" />
     <Compile Include="DB\DatabaseConnection.cs" />
+    <Compile Include="DB\Local\FilmContext.cs" />
+    <Compile Include="DB\Local\ReserveContext.cs" />
+    <Compile Include="DB\Local\UserContext.cs" />
     <Compile Include="DB\MSSQL\FilmSQL.cs" />
     <Compile Include="DB\MSSQL\ReserveSQL.cs" />
     <Compile Include="DB\MSSQL\UserSQL.cs" />
