@@ -10,9 +10,11 @@ namespace CinéBuddy.DB.Local
 {
     public class FilmContext : IFilm
     {
+        private List<Film> AllFilms = new List<Film> { new Film(1, "Memento", "filepath", "Omschrijving van de film", 2, 1, DateTime.Now, 16, 120, "trailerlink") };
+
         public List<Film> GetAllFilms()
         {
-            throw new NotImplementedException();
+            return AllFilms;
         }
 
         public List<Review> GetReviews(int id)
@@ -22,7 +24,7 @@ namespace CinéBuddy.DB.Local
 
         public Film HaalFilmOp(int id)
         {
-            throw new NotImplementedException();
+            return AllFilms[id - 1];
         }
 
         public List<DateTime> HaalFilmTijdenOp(int id)

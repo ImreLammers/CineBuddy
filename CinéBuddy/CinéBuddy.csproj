@@ -137,6 +137,7 @@
     <Compile Include="DB\Repository\FilmRepository.cs" />
     <Compile Include="DB\Repository\ReserveRepository.cs" />
     <Compile Include="DB\Repository\UserRepository.cs" />
+    <Compile Include="Exceptions\KonGebruikerNietVinden.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
