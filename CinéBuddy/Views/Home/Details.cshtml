@@ -1,0 +1,103 @@
+﻿<link href="~/Content/FilmStyle.css" rel="stylesheet" />
+@model CinéBuddy.Models.Films
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.Film.titel</h2>
+
+<div class="div">
+    <table align="left">
+        <tr>
+            <td>
+                <img src="@Url.Content(ViewBag.Film.poster)" class="poster" />
+            </td>
+        </tr>
+    </table>
+    <table align="left" width="750" cellpadding="50">
+        <tr>
+            <td>
+                @ViewBag.Film.omschrijving
+            </td>
+        </tr>
+    </table>
+    <table align="right">
+        <tr>
+            <td>
+                <b>Tijdsduur</b> <br />
+                @ViewBag.Film.lengte minuten
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Genre</b> <br />
+                @ViewBag.Film.genre
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Kijkwijzer</b> <br />
+                @if (ViewBag.Film.kijkwijzer == 0)
+                {
+                    @:AL
+                }
+                else
+                {
+                    @ViewBag.Film.kijkwijzer@:+
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @if (ViewBag.Film.openingsDatum > DateTime.Now)
+            {
+                    <b>Openingsdatum</b> <br />
+                    @ViewBag.Film.openingsDatum.ToString("D");
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="div">
+    <iframe id="youtube" title="Youtube Player" src=@ViewBag.Film.trailerLink width="560" height="315" frameborder="0" allowfullscreen></iframe>
+
+    @if (Session["User"] != null)
+    {
+        <form action="@Url.Action("Reserve", "Home", new { id = ViewBag.Film.ID })" method="post">
+            <div id="Reserveer">
+                <select name="filmTijd">
+                    @foreach (DateTime t in ViewBag.StartTijden)
+                    {
+                        <option value="@t">@t</option>
+                    }
+                </select>
+                <div id="ReserveButton">
+                    <input type="submit" id="submit" value="Reserveer">
+                </div>
+            </div>
+        </form>
+    }
+
+    @foreach (var r in ViewBag.Reviews)
+    {
+        <table class="review">
+            <tr>
+                <td>
+                    <b>Review door @r.gebruiker.gebruikersNaam</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @r.cijfer sterren
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @r.omschrijving
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+

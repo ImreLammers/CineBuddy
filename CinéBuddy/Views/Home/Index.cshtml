@@ -1,0 +1,49 @@
+﻿<link href="~/Content/FilmStyle.css" rel="stylesheet" />
+@model CinéBuddy.Models.Films
+
+@{
+    ViewBag.Title = "Index";
+    int i = 0;
+}
+
+@if (Session["User"] != null)
+{
+    <h1>Welkom @Session["Username"]</h1>
+}
+
+<a href='@Url.Action("Actueel", "Home")' style="text-decoration:none; color:black" class="alles"><h2>Actueel</h2></a>
+@foreach (var a in ViewBag.AlleFilms)
+{
+    if (a.openingsDatum <= DateTime.Today)
+    {
+        <a href='@Url.Action("Details", "Home", new { id = a.ID })'>
+            <img class="poster" src="@Url.Content(a.poster)" />
+        </a>
+        i++;
+        if (i == 5)
+        {
+            break;
+        }
+    }
+}
+
+<div class="alles">
+    <a href='@Url.Action("Verwacht", "Home")' style="text-decoration:none; color:black"><h2>Verwacht</h2></a>
+</div>
+@foreach (var a in ViewBag.AlleFilms)
+{
+    if (a.openingsDatum > DateTime.Today)
+    {
+        <a href='@Url.Action("Details", "Home", new { id = a.ID })'>
+            <img class="poster" src="@Url.Content(a.poster)" />
+        </a>
+        i++;
+        if (i == 10)
+        {
+            break;
+        }
+    }
+}
+
+
+

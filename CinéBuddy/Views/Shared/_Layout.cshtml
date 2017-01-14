@@ -1,0 +1,66 @@
+﻿@using CinéBuddy.Models.Types;
+@{
+    Gebruiker gebruiker = (Gebruiker)HttpContext.Current.Session["user"];
+    Admin admin = (Admin)HttpContext.Current.Session["admin"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <a class="navbar-brand" style="color:yellow">CinéBuddy</a>
+            <div class="navbar-collapse collapse">
+                @if (gebruiker != null)
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Films", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+                        <li>@Html.ActionLink("Sneak Preview", "Index", "SneakPreview", new { area = "" }, new { @class = "navbar-brand" })</li>
+                        <li>@Html.ActionLink("Gold abonnement", "Index", "Gold", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="@Url.Action("Index", "Profile")" class="navbar-brand"><span class="glyphicon glyphicon-user"></span> @gebruiker.gebruikersNaam</a></li>
+                        <li><a href="@Url.Action("Logout", "Home")" class="navbar-brand"><span class="glyphicon glyphicon-log-out"></span> Uitloggen</a></li>
+                    </ul>
+                }
+                @if (admin != null)
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Films", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+                        <li>@Html.ActionLink("Sneak Preview", "Index", "SneakPreview", new { area = "" }, new { @class = "navbar-brand" })</li>
+                        <li>@Html.ActionLink("Gold abonnement", "Index", "Gold", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="@Url.Action("Index", "Profile")" class="navbar-brand"><span class="glyphicon glyphicon-user"></span> @admin.gebruikersNaam</a></li>
+                        <li><a href="@Url.Action("Logout", "Home")" class="navbar-brand"><span class="glyphicon glyphicon-log-out"></span> Uitloggen</a></li>
+                    </ul>
+                }
+                @if (gebruiker == null && admin == null)
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Films", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+                        <li>@Html.ActionLink("Sneak Preview", "Index", "SneakPreview", new { area = "" }, new { @class = "navbar-brand" })</li>
+                        <li>@Html.ActionLink("Gold abonnement", "Index", "Gold", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="@Url.Action("Index", "LogIn")" class="navbar-brand"><span class="glyphicon glyphicon-log-in"></span> Inloggen</a></li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

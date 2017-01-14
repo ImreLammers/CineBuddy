@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (Session["User"] == null)
+{
+    <br />
+    <h4>Door een account aan te maken of in te loggen kunt u op deze pagina een Gold abonnement aanvragen.</h4>
+
+    @:<u>Voordelen van een Gold abonnement:</u><br />
+    @:Gratis naar gewone voorstellingen.<br />
+    @:Korting op drinken en hapjes.<br />
+    @:Krijg elke week een kaartje voor de Sneak Preview
+}
+
+@if (Session["User"] != null)
+{
+    if (ViewBag.User.gold == 0)
+    {
+        <br />
+        <h4>Vraag nu een Gold abonnement aan.</h4>
+
+        @:<u>Voordelen van een Gold abonnement:</u><br />
+        @:Gratis naar gewone voorstellingen.<br />
+        @:Korting op drinken en hapjes.<br />
+        @:Krijg elke week een kaartje voor de Sneak Preview
+        <br />
+        <br />
+        <form action="/Gold/Abonneer" method="post">
+            <input type="submit" id="submit" value="Abonneer">
+        </form>
+    }
+    if (ViewBag.User.gold == 1)
+    {
+        <br />
+        @:Wilt u uw abonnement opzeggen?
+        <br />
+        <br />
+        <form action="/Gold/Annuleer" method="post">
+            <input type="submit" id="submit" value="Annuleer">
+        </form>
+    }
+}
+

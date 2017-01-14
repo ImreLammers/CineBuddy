@@ -1,0 +1,22 @@
+﻿<link href="~/Content/FilmStyle.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Log in</h2>
+<form action="/LogIn/Login" method="post">
+    <div id="LoginBox">
+        <font size="5">
+            Username: <input type="text" name="username" value="">
+        </font>
+        <br>
+        <br>
+        <font size="5">
+            Password: <input type="password" name="password" value=""><br>
+        </font>
+        <div id="SubmitButton">
+            <input type="submit" id="submit" value="Login">
+        </div>
+    </div>
+</form>
+

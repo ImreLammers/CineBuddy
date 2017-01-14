@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<form action="/Profile/Update" method="post">
+    <label>Gebruikersnaam</label><br />
+    <input type="text" name="gebruikersNaam" value="@ViewBag.User.gebruikersNaam" /><br />
+    <label>E-mail</label><br />
+    <input type="text" name="emailAdres" value="@ViewBag.User.emailAdres" /><br />
+    <label>Naam</label><br />
+    <input type="text" name="naam" value="@ViewBag.User.naam" /><br />
+    <label>Woonplaats</label><br />
+    <input type="text" name="woonplaats" value="@ViewBag.User.woonplaats" /><br />
+    <input type="submit" value="Update Gegevens" />
+</form>

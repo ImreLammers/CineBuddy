@@ -1,0 +1,17 @@
+﻿<link href="~/Content/FilmStyle.css" rel="stylesheet" />
+@model CinéBuddy.Models.Films
+
+@{
+    ViewBag.Title = "Actueel";
+}
+
+<h2>Actueel</h2>
+@foreach (var a in ViewBag.AlleFilms)
+{
+    if (a.openingsDatum <= DateTime.Now)
+    {
+        <a href='@Url.Action("Details", "Home", new { id = a.ID })'>
+            <img class="poster" src="@Url.Content(a.poster)" />
+        </a>
+    }
+}

@@ -1,0 +1,56 @@
+﻿<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+@{
+    ViewBag.Title = "Reserve";
+    int a = 1;
+    int b = 1;
+}
+
+<h2>@ViewBag.Film.titel</h2><br />
+<h3>Zaal: @ViewBag.Zaal.ID</h3>
+<div style="align-content: center">
+    @for (int i = 1; i <= ViewBag.Zaal.AantalStoelen; i++)
+    {
+        <input type="button" class="btn-click-action" style="background-color:orangered; height:20px; width:20px;" name="@a _@b" />
+        b++;
+        if (b == 11)
+        {
+            a++;
+            b = 1;
+            <br />
+        }
+    }
+</div>
+<br />
+<div style="align-content: center">
+    @for (int i = 1; i <= ViewBag.Zaal.AantalVIPStoelen; i++)
+    {
+        <input type="button" class="btn-click-action" style="color:orangered" name="@a _@b" />
+        b++;
+    }
+</div>
+<script>
+    function ReserveSeats()
+    {
+        var inputlist = document.getElementsByClassName("btn-click-action");
+        var seatlist = @Html.Raw(Json.Encode(ViewBag.Stoelen));
+        for (var c = 0; c < seatlist.length; c++) {
+            for (var d = 0; d < inputlist.length; d++) {
+                if (inputlist[d].name == seatlist[c].rijNummer + " _" + seatlist[c].stoelNummer) {
+                    inputlist[d].disabled = true;
+                    inputlist[d].style.backgroundColor = "purple";
+                }
+            }
+        }
+    }
+    var btnClassClick = function(e) {
+        alert("Stoel is gereserveerd.");
+        $.ajax({
+            url: "@Url.Action("ReserveSeat", "Home")",
+            data: {stoel: e.currentTarget.name,
+                filmTijd: @Html.Raw(Json.Encode(ViewBag.FilmTijd)),
+                film: @Html.Raw(Json.Encode(ViewBag.Film.ID))}
+        })
+    }
+    $(document).ready(ReserveSeats);
+    $('.btn-click-action').on('click', btnClassClick);
+</script>

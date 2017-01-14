@@ -1,0 +1,101 @@
+﻿<link href="~/Content/FilmStyle.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (Session["User"] != null)
+{
+    <h4>@ViewBag.Film.titel</h4>
+
+    <div class="div">
+        <table align="left">
+            <tr>
+                <td>
+                    <img src="@Url.Content(ViewBag.Film.poster)" class="poster" />
+                </td>
+            </tr>
+        </table>
+        <table align="left" width="750" cellpadding="50">
+            <tr>
+                <td>
+                    @ViewBag.Film.omschrijving
+                </td>
+            </tr>
+        </table>
+        <table align="right">
+            <tr>
+                <td>
+                    <b>Tijdsduur</b> <br />
+                    30 minuten
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Genre</b> <br />
+                    @ViewBag.Film.genre
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Kijkwijzer</b> <br />
+                    @if (ViewBag.Film.kijkwijzer == 0)
+                {
+                        @:AL
+                }
+                else
+                {
+                        @ViewBag.Film.kijkwijzer@:+
+                }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Openingsdatum</b> <br />
+                    @{
+                        DateTime d = ViewBag.Film.openingsDatum.AddDays(-1);
+                    }
+                    @d.ToString("D")
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="div">
+        <iframe id="youtube" title="Youtube Player" src=@ViewBag.Film.trailerLink width="560" height="315" frameborder="0" allowfullscreen></iframe>
+        @if (ViewBag.User.gold == 0)
+        {
+            <table align="right">
+                <tr>
+                    <td>
+                        Alleen gebruikers met een Gold abonnement kunnen naar de Sneak Preview gaan.
+                    </td>
+                </tr>
+            </table>
+        }
+        @if (ViewBag.User.gold == 1)
+        {
+            <form action="/SneakPreview/Reserveer" method="post">
+                <div id="Abonneer">
+                    <div id="AbonneerButton">
+                        <input type="submit" id="submit" value="Reserveer">
+                    </div>
+                </div>
+            </form>
+            <form action="/SneakPreview/Abonneer" method="post">
+                <div id="Abonneer">
+                    <div id="AbonneerButton">
+                        <input type="submit" id="submit" value="Abonneer">
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+                        }
+@if (Session["User"] == null)
+{
+    <h2>De Sneak Preview van deze week is @ViewBag.Film.titel.</h2>
+
+    @:Elke week is er een voorstelling van de meest populairste film van die week.<br />
+    @:Deze Sneak Preview is altijd één dag voor de openingsdatum van de film.<br />
+    @:Door in te loggen kan je hier een kaartje voor bestellen.
+}
+
